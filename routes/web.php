@@ -32,7 +32,12 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'store']);
 
 Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-// Route::get('/admin/create', [AdminDashboardController::class, 'create'])->name('admin.create');
+
+Route::get('/admin/add-user', [AdminDashboardController::class, 'adduser'])->name('admin.adduser');
+Route::post('/admin/add-user', [AdminDashboardController::class, 'storeuser']);
+
+Route::get('/admin/add-book', [AdminDashboardController::class, 'addbook'])->name('admin.addbook');
+Route::post('/admin/add-book', [AdminDashboardController::class, 'storebook']);
 
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 

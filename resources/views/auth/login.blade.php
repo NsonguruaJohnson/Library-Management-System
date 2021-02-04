@@ -6,7 +6,7 @@
         <div style="width: 20rem; margin: 0 auto" class="text-center p-3 mb-2 bg-danger text-white">
             {{ session('msg') }}
         </div>
-    @endif
+@endif
 <form style="width: 20rem; margin: 0 auto" action="{{ route('login') }}" method="POST">
     @csrf
     <div class="row justify-content-center">     
