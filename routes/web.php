@@ -39,6 +39,10 @@ Route::post('/admin/add-user', [AdminDashboardController::class, 'storeuser']);
 Route::get('/admin/add-book', [AdminDashboardController::class, 'addbook'])->name('admin.addbook');
 Route::post('/admin/add-book', [AdminDashboardController::class, 'storebook']);
 
+Route::get('/admin/edit-book/{id}', [AdminDashboardController::class, 'editbook'])->name('admin.editbook');
+Route::post('/admin/update-book/{id}', [AdminDashboardController::class, 'updatebook'])->name('admin.updatebook');
+Route::post('/admin/delete-book/{id}', [AdminDashboardController::class, 'deletebook'])->name('admin.deletebook');
+
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
 

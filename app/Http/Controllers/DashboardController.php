@@ -11,8 +11,20 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
 
-    public function index(){
-        $books = Book::latest()->get();
+    public function index(Request $request){
+        # Start
+
+        $search = $request->search;
+        if ($search === NULL){
+            $books = Book::latest()->get();
+        } else {
+            $books = Book::where('author', 'like','%'. $search . '%')
+                            ->orwhere('title', 'like', '%'. $search . '%')
+                            ->latest()->get();
+        }       
+
+        #End
+        // $books = Book::latest()->get();
         return view('dashboard', [
             'books' => $books
         ]);

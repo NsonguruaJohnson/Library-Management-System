@@ -61,7 +61,7 @@
                 </div>
                 <div class="d-grid gap-4">
                     <button class="btn btn-primary" type="submit">Add User</button>
-                    <a href="{{ route('admin.dashboard') }}"><button class="btn btn-primary" type="button">Back to Dashboard</button></a>
+                    <a href="{{ route('admin.dashboard') }}"><button class="btn btn-warning" type="button">Back to Dashboard</button></a>
                 </div> 
             </div>
 

@@ -47,6 +47,8 @@
                                     <th scope="col">Id</th>
                                     <th scope="col">Title</th>
                                     <th scope="col">Author</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -55,6 +57,13 @@
                                         <td>{{ $book->id }}</td>
                                         <td>{{ $book->title }}</td>
                                         <td>{{ $book->author }}</td>
+                                        <td><a href="{{ route('admin.editbook', $book->id) }}"  class="btn btn-secondary">Edit</a></td>
+                                        <td>
+                                            <form action="{{ route('admin.deletebook', $book->id) }}" method="post">
+                                                @csrf
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -94,5 +103,5 @@
             </div>
         </div>
     </div>
-    
+
 @endsection

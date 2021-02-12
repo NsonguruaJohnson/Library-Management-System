@@ -34,13 +34,35 @@ class AdminDashboardController extends Controller
     public function storebook(Request $request){
         $this->validate($request, [
             'title' => 'required',
-            'author' => ['required']
+            'author' => ['required'],
+            // 'book_file' => 'required|mimes:csv,txt,xlx,xls,pdf|max:2048'
+            'book_file' => 'required|mimes:pdf|max:2048', #2mb
+            'book_cover' => ['required', 'mimes:jpg,jpeg,png,gif,svg', 'max:2048'], #2mb
+        ], [
+            'book_file.max' => 'The book must not be greater than 2mb',
+            'book_cover.max' => 'The book cover must not be greater than 2mb'
+
         ]);
-        // dd($request);
+        // dd($request->book_file);
+           
+            // $file = $request->file('book_file');
+            $bookName = time().'_'.$request->file('book_file')->getClientOriginalName();  
+            $bookPath = $request->file('book_file')->storeAs('uploads', $bookName, 'public');  
+            
+            # For BookCover
+            $bookCoverName = time().'_'.$request->file('book_cover')->getClientOriginalName();  
+            $bookCoverPath = $request->file('book_cover')->storeAs('bookcover', $bookCoverName , 'public');  
+            
+
         $book = new Book();
         $book->title = $request->title;
         $book->author = $request->author;
         $book->user_id = auth()->user()->id;
+        $book->book_name = $bookName;
+        $book->book_path = '/storage/' . $bookPath;
+
+        $book->book_cover = $bookCoverName;
+        $book->book_cover_path = '/storage/' . $bookCoverPath;
         $book->save();
 
         return back()->with('msg', 'Book added');
@@ -66,5 +88,34 @@ class AdminDashboardController extends Controller
 
         return back()->with('msg', 'User created');
 
+    }
+
+    public function editbook($id){
+        $book = Book::find($id);
+        return view('admin.editbook', [
+            'book' => $book
+        ]);
+    }
+
+    public function updatebook(Request $request, $id){
+        $this->validate($request, [
+            'title' => 'required',
+            'author' => ['required']
+        ]);
+
+        $book = Book::find($id);
+        $book->title = $request->title;
+        $book->author = $request->author;
+        $book->user_id = auth()->user()->id;
+        $book->update();
+
+        return back()->with('msg', 'Book Updated');
+    }
+
+    public function deletebook($id){
+        $book = Book::find($id);
+        $book->delete();
+
+        return redirect()->route('admin.dashboard');
     }
 }
