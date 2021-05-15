@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class AdminDashboardController extends Controller
 {
@@ -16,7 +17,7 @@ class AdminDashboardController extends Controller
     public function index(){
         $users = User::get();
         $books = Book::latest()->get();
-        return view('admin.dashboard', [          
+        return view('admin.dashboard', [
             // 'users' => collect(), #This is used to return an empty collection
             'users' => $users,
             'books' => $books
@@ -44,15 +45,15 @@ class AdminDashboardController extends Controller
 
         ]);
         // dd($request->book_file);
-           
+
             // $file = $request->file('book_file');
-            $bookName = time().'_'.$request->file('book_file')->getClientOriginalName();  
-            $bookPath = $request->file('book_file')->storeAs('uploads', $bookName, 'public');  
-            
+            $bookName = time().'_'.$request->file('book_file')->getClientOriginalName();
+            $bookPath = $request->file('book_file')->storeAs('uploads', $bookName, 'public');
+
             # For BookCover
-            $bookCoverName = time().'_'.$request->file('book_cover')->getClientOriginalName();  
-            $bookCoverPath = $request->file('book_cover')->storeAs('bookcover', $bookCoverName , 'public');  
-            
+            $bookCoverName = time().'_'.$request->file('book_cover')->getClientOriginalName();
+            $bookCoverPath = $request->file('book_cover')->storeAs('bookcover', $bookCoverName , 'public');
+
 
         $book = new Book();
         $book->title = $request->title;
@@ -114,6 +115,16 @@ class AdminDashboardController extends Controller
 
     public function deletebook($id){
         $book = Book::find($id);
+
+        # Start 15th May
+
+        // Delete the book thumbnail and bookfile from local storage
+
+        Storage::delete(['/public/bookcover/'.$book->book_cover, '/public/uploads/'.$book->book_name]);
+
+        # End
+
+        // Delete the book path from db
         $book->delete();
 
         return redirect()->route('admin.dashboard');

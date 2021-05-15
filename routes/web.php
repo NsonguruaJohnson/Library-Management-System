@@ -26,6 +26,8 @@ Route::get('/', function () {
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
+Route::post('/register', [RegisterController::class, 'store']);
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -44,7 +46,6 @@ Route::post('/admin/update-book/{id}', [AdminDashboardController::class, 'update
 Route::post('/admin/delete-book/{id}', [AdminDashboardController::class, 'deletebook'])->name('admin.deletebook');
 
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
-
 
 
 // Route::get('/admin-login', [AdminDashboardController::class, 'index'])->name('admin.login');
