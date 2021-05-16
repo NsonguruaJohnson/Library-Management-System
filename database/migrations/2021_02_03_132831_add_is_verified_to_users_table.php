@@ -14,7 +14,7 @@ class AddIsVerifiedToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('is_verified')->nullable();
+            $table->integer('is_verified')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddIsVerifiedToUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('is_verified')->default(0);
+            $table->dropColumn('is_verified');
         });
     }
 }
